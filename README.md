@@ -16,9 +16,11 @@ This program is written in `Python 3`, and requires 3 libraries to be installed 
         <img src="https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white" alt="Numpy Badge" />
     </a>
     &nbsp;
+    &nbsp;
     <a href="https://pandas.pydata.org/" target="_blank">
         <img src="https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas Badge" />
     </a>
+    &nbsp;
     &nbsp;
     <a href="https://scipy.org/" target="_blank">
         <img src="https://img.shields.io/badge/SciPy-%230C55A5.svg?style=for-the-badge&logo=scipy&logoColor=%white" alt="SciPy Badge" />
@@ -70,4 +72,22 @@ while True:
         # store the int version of the dimensions if they're legit numbers
         row_A = int(row_A)
         col_A = int(col_A)
+```
+
+Furthermore, the user wants to redefine the dimensions of the matrix if needed.
+```python
+    decide_dimension = input(f"\nTo continue with matrix A{row_A}*{col_A}, enter 'y' for yes or 'n' to reassign the dimensions: ")
+    if decide_dimension in choice_yes:
+        print(f"\nThe dimensions for matrix A are stored as {row_A} and {col_A}.")
+        time.sleep(0.25)
+        break
+    elif decide_dimension in choice_no:
+        # receive the dimensions again
+        continue
+    else:
+        print("\nYou entered an unknown input, it'll be counted as a 'no'.")
+else:
+    # forces the user to give new inputs
+    print("\nThe dimensions are invalid, try again.")
+    time.sleep(0.25)
 ```
