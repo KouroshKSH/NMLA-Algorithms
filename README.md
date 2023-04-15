@@ -88,3 +88,28 @@ while True:
         print("\nThe dimensions are invalid, try again.")
         time.sleep(0.25)
 ```
+
+Thereafter, the program will ask the user to assign values to the elements of the matrix for each aij , where $0 \leq i < | \text{row} (A)|$ and $0 \leq j < | \text{column} (A)|$ . In each step, the terminal will print the current state of the matrix $A$ to further help the user. Naturally, the user can only enter integer or floating point numbers, otherwise, a message will be shown to notify the user to reenter the value of that element.
+```python
+print("\nGiven the matrix above, we're now going to assign the elements one by one.")
+    time.sleep(0.25)
+    for r in range(row_A):
+        for c in range(col_A):
+            while True:
+                # to make sure all inputs are valid
+                time.sleep(0.25)
+                element_input = input(f"\nValue of a[{r}][{c}]: ")
+
+                if element_input.isdigit():
+                    # to check if it's an int
+                    break
+                elif isFloatTry(element_input):
+                    # to check if it's a float
+                    break
+                else:
+                    print("\nInput is invalid, try again.")
+
+            # store the floating version of inputs in matrix A
+            matrix_A[r][c] = float(element_input)
+            printMatrix(matrix_A, user_choice, 'A')
+```
