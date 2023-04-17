@@ -91,7 +91,7 @@ while True:
 
 Thereafter, the program will ask the user to assign values to the elements of the matrix for each aij , where $0 \leq i < | \text{row} (A)|$ and $0 \leq j < | \text{column} (A)|$ . In each step, the terminal will print the current state of the matrix $A$ to further help the user. Naturally, the user can only enter integer or floating point numbers, otherwise, a message will be shown to notify the user to reenter the value of that element.
 ```python
-print("\nGiven the matrix above, we're now going to assign the elements one by one.")
+    print("\nGiven the matrix above, we're now going to assign the elements one by one.")
     time.sleep(0.25)
     for r in range(row_A):
         for c in range(col_A):
@@ -113,3 +113,39 @@ print("\nGiven the matrix above, we're now going to assign the elements one by o
             matrix_A[r][c] = float(element_input)
             printMatrix(matrix_A, user_choice, 'A')
 ```
+
+The same process will take place for vector b as well. Although, this vector will be shown as a $B_{n \times 1}$ matrix, since it will make the calculations smoother.
+```python
+    print("\nNow, let's define vector b.")
+    while True:
+        time.sleep(0.25)
+        size_b = input("\nNumber of elements for vector b: ")
+        if size_b.isdigit():
+            size_b = int(size_b)
+            time.sleep(0.25)
+```
+
+After this step, the user will see a message, which asks him to choose a method for solving the system. Entering a number from $\{ 1, 2, 3 \}$ will start the process for calling its respected algorithm. However, the user can quit the program at this stage, if needed.
+```python
+    print("\nNow, we can solve the system of equations with one of these methods:\n\t1) SVD\t2) QR\t3) LU")
+    while True:
+        time.sleep(0.25)
+        decide_method = input("\nEnter the number corresponding to each method, or quit by entering '0': ")
+        if decide_method in choice1:
+            funcAlgSVD(matrix_A, vector_b, user_choice)
+            continue
+        elif decide_method in choice2:
+            funcAlgQR(matrix_A, vector_b, user_choice)
+        elif decide_method in choice3:
+            funcAlgLU(matrix_A, vector_b, user_choice)
+        elif decide_method in choice4:
+            break
+        else:
+            print("\nNo valid input, try again.")
+            continue
+```
+
+It should be noted that, all three of the algorithms use in-built commands from the libraries mentioned earlier; hence the small size of the code.
+1. `funcAlgSVD(matrix_A, vector_b, user_choice)`
+2. `funcAlgQR(A, b, user_choice)`
+3. `funcAlgLU(A, b, user_choice)`
