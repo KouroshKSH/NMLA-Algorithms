@@ -149,3 +149,39 @@ It should be noted that, all three of the algorithms use in-built commands from 
 1. `funcAlgSVD(matrix_A, vector_b, user_choice)`
 2. `funcAlgQR(A, b, user_choice)`
 3. `funcAlgLU(A, b, user_choice)`
+
+---
+
+## Algorithms
+### SVD
+The SVD (Singular Value Decomposition) algorithm is a matrix factorization method that decomposes a matrix into three separate matrices:
+1. $U$
+2. $\Sigma$
+3. $V$
+
+Given an $A_{m \times n}$ matrix, we can represent it as a product of three matrices: $$A = U \Sigma V^T$$
+
+> where $U_{m \times m}$ is an orthogonal matrix, $\Sigma_{m \times n}$ is a diagonal matrix with non-negative real numbers on the diagonal, and $V^{T}_{n \times n}$ is an orthogonal matrix.
+
+The SVD algorithm can be used for various applications, including image compression, data analysis, and recommendation systems. It is also used in various machine learning techniques such as principal component analysis (PCA) and latent semantic analysis (LSA).
+Here, three parameters are passed into this function, which are:
+1. Matrix $A$, which represents the input matrix
+2. Vector $b$, which is used for finding the solutions
+3. The user’s choice of representation
+
+Since $A = U \Sigma V^T$, the program first calculates these three matrices by using the `np.linalg.svd()` command. It should be noted that the parameter `full_matrices` should be set to `True`. Also, the matrix $\Sigma$, which is equal to $[[ \Sigma_1, 0], [0, 0]]$, should be constructed separately.
+```python
+def funcAlgSVD(matrix_A, vector_b, user_choice):
+    # store the choice for representation
+    choice = user_choice
+
+    # perform the SVD decomposition method by determining the 3 matrices:
+    # 1)matrix U, 2)Sigma one (Sigma = [[Sigma_one, 0], [0, 0]]), 3)V transpose
+    matrix_U, matrix_Sigma_one, matrix_V_trans = np.linalg.svd(matrix_A, full_matrices = True)
+
+    # build the main Sigma matrix from Sigma_one
+    matrix_Sigma = np.zeros((len(matrix_A), len(matrix_A[0])))
+    for i in range(min(len(matrix_A), len(matrix_A[0]))):
+        matrix_Sigma[i][i] = matrix_Sigma_one[i]
+```
+
