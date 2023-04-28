@@ -185,3 +185,10 @@ def funcAlgSVD(matrix_A, vector_b, user_choice):
         matrix_Sigma[i][i] = matrix_Sigma_one[i]
 ```
 
+---
+
+### QR
+QR decomposition (also known as QR factorization) is a matrix factorization technique that decomposes a matrix into the product of an orthogonal matrix and an upper triangular matrix. It is widely used in numerical linear algebra and has many applications in various fields, such as signal processing, optimization, and statistics. Given a matrix $A_{m \times n}$ with linearly independent columns, QR decomposition expresses $A$ as the product of an $m \times n$ orthogonal matrix $Q$ and an $n \times n$ upper triangular matrix $R$:
+$$A=QR$$
+
+> where $Q$ is an orthogonal matrix, meaning that its columns are orthonormal (i.e., unit vectors that are orthogonal to each other), and $R$ is an upper triangular matrix, meaning that all its entries below the diagonal are zero.
