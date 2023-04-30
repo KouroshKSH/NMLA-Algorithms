@@ -183,6 +183,39 @@ def funcAlgSVD(matrix_A, vector_b, user_choice):
     matrix_Sigma = np.zeros((len(matrix_A), len(matrix_A[0])))
     for i in range(min(len(matrix_A), len(matrix_A[0]))):
         matrix_Sigma[i][i] = matrix_Sigma_one[i]
+        
+    # proof for the legitimacy of the algorithm
+    print("\nThe main matrices of the SVD algorithm will be printed to showcase its functionality.")
+    printMatrix(matrix_U, choice, 'U')
+    printMatrix(matrix_Sigma, choice, 'Σ')
+    printMatrix(matrix_V_trans, choice, 'V^{T}')
+    print("\nSince 'A = U @ Σ @ V^{T}', we can see that:")
+    matrix_prove = np.around(matrix_U @ (matrix_Sigma @ matrix_V_trans), 5)
+    printMatrix(matrix_prove, choice, 'A = U @ Σ @ V^{T}')
+
+    # calculate the pseudo inverses and transposes of the matrices
+    matrix_A_inverse = np.linalg.pinv(matrix_A)
+    matrix_V = np.matrix.transpose(matrix_V_trans)
+    matrix_Sigma_inverse = np.linalg.pinv(matrix_Sigma)
+    matrix_U_trans = np.matrix.transpose(matrix_U)
+
+    print("\nNow, if we calculate the inverse of matrix A, or 'A^{-1}', we can see that:")
+    printMatrix(matrix_A_inverse, choice, 'A^{-1}')
+    printMatrix(matrix_V, choice, 'V')
+    printMatrix(matrix_Sigma_inverse, choice, 'Σ^{-1}')
+    printMatrix(matrix_U_trans, choice, 'U^{T}')
+    print("\nSince 'A^{-1} = V @ Σ^{-1} @ U^{T}', we can see that:")
+    matrix_prove = np.around(matrix_V @ (matrix_Sigma_inverse @ matrix_U_trans), 5)
+    printMatrix(matrix_prove, choice, 'A^{-1} = V @ Σ^{-1} @ U^{T}')
+
+    # show that both routes work
+    print("\nAt last, we can find the values of our system of equation.")
+    print("\n1) Calculating 'x' using 'Ax = b >> x = A^{-1} @ b':")
+    vector_x = np.around(matrix_A_inverse @ vector_b, 5)
+    printMatrix(vector_x, choice, 'A^{-1} @ b = x')
+    print("\n2) Calculating 'x' using 'A = U @ Σ @ V^{T}, Ax = b >> x = V @ Σ^{-1} @ U^{T} @ b':")
+    vector_x = np.around(matrix_V @ (matrix_Sigma_inverse @ (matrix_U_trans @ vector_b)), 5)
+    printMatrix(vector_x, choice, 'V @ Σ^{-1} @ U^{T} @ b = x')
 ```
 
 ---
@@ -192,3 +225,41 @@ QR decomposition (also known as QR factorization) is a matrix factorization tech
 $$A=QR$$
 
 > where $Q$ is an orthogonal matrix, meaning that its columns are orthonormal (i.e., unit vectors that are orthogonal to each other), and $R$ is an upper triangular matrix, meaning that all its entries below the diagonal are zero.
+
+The command that performs the QR decomposition is from NumPy's `linalg.qr` function. For more information, check out NumPy's official documentation [here](https://numpy.org/doc/stable/reference/generated/numpy.linalg.qr.html).
+
+```python
+def funcAlgQR(A, b, user_choice):
+    choice = user_choice
+
+    # perform the QR decomposition by determining matrices Q and R
+    Q, R = np.linalg.qr(A)
+
+    # proof for the legitimacy of the algorithm
+    print("\nThe main matrices of the QR algorithm will be printed to showcase its functionality.")
+    printMatrix(Q, choice, 'Q')
+    printMatrix(R, choice, 'R')
+    print("\nSince 'A = Q @ R', we can see that:")
+    matrix_prove = np.around(Q @ R, 5)
+    printMatrix(matrix_prove, choice, 'A = Q @ R')
+
+    A_inv = np.linalg.pinv(A)
+    R_inv = np.linalg.pinv(R)
+    Q_trans = np.matrix.transpose(Q)
+
+    print("\nNow, if we calculate the inverse of matrix A, or 'A^{-1}', we can see that:")
+    printMatrix(A_inv, choice, 'A^{-1}')
+    printMatrix(R_inv, choice, 'R^{-1}')
+    printMatrix(Q_trans, choice, 'Q^{T}')
+    print("\nSince 'A^{-1} = R^{-1} @ Q^{T}', we can see that:")
+    matrix_prove = np.around(R_inv @ Q_trans, 5)
+    printMatrix(matrix_prove, choice, 'A^{-1} = R^{-1} @ Q^{T}')
+
+    print("\nAt last, we can find the values of our system of equation.")
+    print("\n1) Calculating 'x' using 'Ax = b >> x = A^{-1} @ b':")
+    x = np.around(A_inv @ b, 5)
+    printMatrix(x, choice, 'A^{-1} @ b = x')
+    print("\n2) Calculating 'x' using 'A = Q @ R, Ax = b >> x = R^{-1} @ Q^{T} @ b':")
+    x = np.around(R_inv @ (Q_trans @ b), 5)
+    printMatrix(x, choice, 'R^{-1} @ Q^{T} @ b = x')
+```
