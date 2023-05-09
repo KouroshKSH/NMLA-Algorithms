@@ -11,6 +11,10 @@ The are 3 main stages in total:
 3. Outputting the results
 
 This program is written in `Python 3`, and requires 3 libraries to be installed beforehand:
+1. [NumPy](https://numpy.org/)
+2. [Pandas](https://pandas.pydata.org/)
+3. [SciPy](https://scipy.org/)
+
 <p align="center">
     <a href="https://numpy.org/" target="_blank">
         <img src="https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white" alt="Numpy Badge" />
@@ -26,6 +30,8 @@ This program is written in `Python 3`, and requires 3 libraries to be installed 
         <img src="https://img.shields.io/badge/SciPy-%230C55A5.svg?style=for-the-badge&logo=scipy&logoColor=%white" alt="SciPy Badge" />
     </a>
 </p>
+
+> In case you don't see the badges of each library, it's probably because of `img.shields` not working properly.
 
 ---
 
@@ -262,4 +268,56 @@ def funcAlgQR(A, b, user_choice):
     print("\n2) Calculating 'x' using 'A = Q @ R, Ax = b >> x = R^{-1} @ Q^{T} @ b':")
     x = np.around(R_inv @ (Q_trans @ b), 5)
     printMatrix(x, choice, 'R^{-1} @ Q^{T} @ b = x')
+```
+
+---
+
+### LU
+LU decomposition is a method of factorizing a square matrix $A$ into a lower triangular matrix $L$ and an upper triangular matrix $U$ such that
+$$A=LU$$
+
+> where:
+> - $A$ is the original square matrix that we want to decompose into lower and upper triangular matrices.
+> - $L$ is a lower triangular matrix with ones on the diagonal, and with other entries $L_{i,j}$ that are the coefficients used to eliminate elements below the diagonal in the Gaussian elimination process. Specifically, $L_{i,j}$ is the multiplier used to eliminate $A_{i,j}$ in the $i$-th row during the $j$-th step of Gaussian elimination, where $i>j$.
+> - $U$ is an upper triangular matrix that is obtained from $A$ by applying a series of row operations to eliminate elements below the diagonal. Specifically, $U$ has the same entries as $A$ above the diagonal, and below the diagonal, the entries are all zero.
+
+
+The LU decomposition can be found using Gaussian elimination with partial pivoting, which involves performing a series of elementary row operations on $A$ until it is in row echelon form. The resulting upper triangular matrix $U$ is the result of these row operations, and $L$ is the product of the elementary matrices used in the row operations.
+
+```python
+def funcAlgLU(A, b, user_choice):
+    choice = user_choice
+
+    # perform the LU decomposition using pivot
+    P, L, U = la.lu(A)
+
+    print("\nThe main matrices of the LU algorithm will be printed to showcase its functionality (with row pivoting).")
+    printMatrix(P, choice, 'P')
+    printMatrix(L, choice, 'L')
+    printMatrix(U, choice, 'U')
+    print("\nSince 'A = P @ L @ U', we can see that:")
+    matrix_prove = np.around(P @ (L @ U), 5)
+    printMatrix(matrix_prove, choice, 'A = P @ L @ U')
+
+    A_inv = np.linalg.pinv(A)
+    U_inv = np.linalg.pinv(U)
+    L_inv = np.linalg.pinv(L)
+    P_trans = np.matrix.transpose(P)
+
+    print("\nNow, if we calculate the inverse of matrix A, or 'A^{-1}', we can see that:")
+    printMatrix(A_inv, choice, 'A^{-1}')
+    printMatrix(U_inv, choice, 'U^{-1}')
+    printMatrix(L_inv, choice, 'L^{-1}')
+    printMatrix(P_trans, choice, 'P^{T}')
+    print("\nSince 'A^{-1} = U^{-1} @ L^{-1} @ P^{T}', we can see that:")
+    matrix_prove = np.around(U_inv @ (L_inv @ P_trans), 5)
+    printMatrix(matrix_prove, choice, 'A^{-1} = U^{-1} @ L^{-1} @ P^{T}')
+
+    print("\nAt last, we can find the values of our system of equation.")
+    print("\n1) Calculating 'x' using 'Ax = b >> x = A^{-1} @ b':")
+    x = np.around(A_inv @ b, 5)
+    printMatrix(x, choice, 'A^{-1} @ b = x')
+    print("\n2) Calculating 'x' using 'A = P @ L @ U, Ax = b >> x = U^{-1} @ L^{-1} @ P^{T} @ b':")
+    x = np.around(U_inv @ (L_inv @ (P_trans @ b)), 5)
+    printMatrix(x, choice, 'U^{-1} @ L^{-1} @ P^{T} @ b = x')
 ```
